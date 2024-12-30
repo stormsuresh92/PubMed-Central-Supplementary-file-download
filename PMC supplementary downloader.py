@@ -6,11 +6,7 @@ from tqdm import tqdm
 
 # Headers for the HTTP request
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Cache-Control': 'max-age=0',
-    'Connection': 'keep-alive',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
 }
 
 # Read PMC IDs from the file
@@ -21,14 +17,14 @@ with open('PMCids.txt', 'r') as file:
 for u in tqdm(ids):
     pmc_id = u.strip()
     url = f'https://www.ncbi.nlm.nih.gov/pmc/articles/{pmc_id}/'
-    response = requests.get(url, headers=headers)
-    sleep(5)  # Rate limiting
+    response = requests.get(url, headers=headers, timeout=10)
+    sleep(10)  # Rate limiting
     
     if response.status_code == 200:
         try:
             # Parse the HTML content
             soup = BeautifulSoup(response.content, 'html.parser')
-            supple_tag = soup.find(id='sec21')
+            supple_tag = soup.find(class_='sm xbox font-sm')
 
             # Check if supplementary materials exist
             if supple_tag:
