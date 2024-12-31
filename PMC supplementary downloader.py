@@ -24,7 +24,7 @@ for u in tqdm(ids):
         try:
             # Parse the HTML content
             soup = BeautifulSoup(response.content, 'html.parser')
-            supple_tag = soup.find(class_='sm xbox font-sm')
+            supple_tag = soup.find(class_='supplementary-materials')
 
             # Check if supplementary materials exist
             if supple_tag:
